@@ -1,0 +1,12 @@
+[package]
+name = "slice-copy"
+version = "0.1.0"
+authors = ["Travis Bischel <twmb@lavabit.com>"]
+description = "Go style copying for slices"
+documentation = "https://docs.rs/slice-copy"
+repository = "https://github.com/twmb/slice-copy"
+readme = "README.md"
+keywords = ["slice", "copy"]
+license = "MIT"
+
+[dependencies]
