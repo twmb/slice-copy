@@ -37,12 +37,13 @@
 //! assert_eq!(l, b"bizbarbaz");
 //! ```
 
+#[cfg(test)]
 extern crate alloc;
-
-use core::cmp::min;
 
 #[cfg(test)]
 use alloc::vec::Vec;
+
+use core::cmp::min;
 
 #[cfg(feature = "nightly")]
 trait Cpy<T = Self>
