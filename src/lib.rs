@@ -1,4 +1,5 @@
 #![cfg_attr(feature = "nightly", feature(specialization))]
+#![no_std]
 
 //! This crate provides Go style copying / cloning for slices.
 //!
@@ -36,7 +37,12 @@
 //! assert_eq!(l, b"bizbarbaz");
 //! ```
 
-use std::cmp::min;
+extern crate alloc;
+
+use core::cmp::min;
+
+#[cfg(test)]
+use alloc::vec::Vec;
 
 #[cfg(feature = "nightly")]
 trait Cpy<T = Self>
