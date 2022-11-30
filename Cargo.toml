@@ -8,6 +8,3 @@ repository = "https://github.com/twmb/slice-copy"
 readme = "README.md"
 keywords = ["slice", "copy"]
 license = "MIT"
-
-[features]
-nightly = []
