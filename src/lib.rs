@@ -1,4 +1,4 @@
-#![cfg_attr(feature = "nightly", feature(specialization))]
+#![no_std]
 
 //! This crate provides Go style copying / cloning for slices.
 //!
@@ -36,40 +36,13 @@
 //! assert_eq!(l, b"bizbarbaz");
 //! ```
 
-use std::cmp::min;
+#[cfg(test)]
+extern crate alloc;
 
-#[cfg(feature = "nightly")]
-trait Cpy<T = Self>
-where
-    T: ?Sized,
-{
-    fn copy(&mut self, src: &T) -> usize;
-}
+#[cfg(test)]
+use alloc::vec::Vec;
 
-#[cfg(feature = "nightly")]
-default impl<T> Cpy<[T]> for [T]
-where
-    T: Copy,
-{
-    #[inline]
-    fn copy(&mut self, src: &Self) -> usize {
-        let len = min(src.len(), self.len());
-        (&mut self[..len]).copy_from_slice(&src[..len]);
-        len
-    }
-}
-
-#[cfg(feature = "nightly")]
-impl Cpy<[u8]> for [u8] {
-    #[inline]
-    fn copy(&mut self, src: &Self) -> usize {
-        use std::io::Read;
-        let len = min(src.len(), self.len());
-        (&src[..len])
-            .read(&mut self[..len])
-            .expect("&[u8] reads never error")
-    }
-}
+use core::cmp::min;
 
 /// Copies as many `T` as possible from `src` into `dst`, returning the number of `T` copied. This
 /// function is short form for `dst.copy_from_slice(src)`, but accounts for if their lengths are
@@ -98,16 +71,9 @@ pub fn copy<T>(dst: &mut [T], src: &[T]) -> usize
 where
     T: Copy,
 {
-    #[cfg(feature = "nightly")]
-    {
-        dst.copy(src)
-    }
-    #[cfg(not(feature = "nightly"))]
-    {
-        let len = min(src.len(), dst.len());
-        (&mut dst[..len]).copy_from_slice(&src[..len]);
-        len
-    }
+    let len = min(src.len(), dst.len());
+    (&mut dst[..len]).copy_from_slice(&src[..len]);
+    len
 }
 
 /// Clones as many `T` as possible from `src` into `dst`, returning the number of `T` cloned. This
