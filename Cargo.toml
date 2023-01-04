@@ -1,6 +1,6 @@
 [package]
 name = "slice-copy"
-version = "0.2.0"
+version = "0.3.0"
 authors = ["Travis Bischel <twmb@lavabit.com>"]
 description = "Go style copying for slices"
 documentation = "https://docs.rs/slice-copy"
